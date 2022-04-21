@@ -13,8 +13,6 @@ export const signup = async (req, res) => {
     await user.cryptPassword();
     // users.insertOne({ ...user });
 
-    // console.log('bonjour');
-
     res.status(200).json({ message: 'Utilisateur Créé', user });
   }
   catch (err) {
