@@ -1,4 +1,3 @@
-import Connection from '../database.js';
 import User from '../Models/User.js';
 
 /**
@@ -8,26 +7,19 @@ import User from '../Models/User.js';
 export const signup = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const users = Connection.getCollection('users');
-
-    const isUserExisting = await users.findOne({ email });
-    if (isUserExisting) {
-      return res.status(409).json({ message: "Cet email est déjà inscrit !" });
-    }
-
-    console.log('issou');
-    const user = new User();
-    console.log({ user });
-    await user.setNew('jean@gmail.', 'jean');
-    console.log(user);
-    // users.insertOne({ email, password });
+    const user = new User(email, password);
+    await user.isUserExisting();
+    await user.validData();
+    await user.cryptPassword();
+    // users.insertOne({ ...user });
 
     // console.log('bonjour');
 
     res.status(200).json({ message: 'Utilisateur Créé', user });
   }
   catch (err) {
-    res.status(500).json(err);
+    const { status, message } = err;
+    res.status(500 || status).json(message || err);
   }
 };
 
