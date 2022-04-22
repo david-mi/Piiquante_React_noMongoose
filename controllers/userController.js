@@ -1,3 +1,4 @@
+// CLASSES
 import UserSignup from '../Models/user/UserSignup.js';
 import UserLogin from '../Models/user/UserLogin.js';
 import Connection from '../database.js';
@@ -8,8 +9,8 @@ import Connection from '../database.js';
 
 export const signup = async (req, res) => {
 
-  const { email, password } = req.body;
-  const user = new UserSignup(email, password);
+  const { email: reqEmail, password: reqPassword } = req.body;
+  const user = new UserSignup(reqEmail, reqPassword);
 
   try {
     await user.validData();
@@ -17,8 +18,9 @@ export const signup = async (req, res) => {
     await user.isUserRegistered();
     await user.hashPassword();
 
+    const { encryptedEmail: email, hashedPassword: password } = user;
     const dataBaseUsers = Connection.getCollection('users');
-    dataBaseUsers.insertOne({ ...user });
+    dataBaseUsers.insertOne({ email, password });
 
     res.status(200).json({ message: 'Utilisateur Créé', user });
   }
@@ -28,10 +30,16 @@ export const signup = async (req, res) => {
   }
 };
 
+/**
+ * @function login va vérifier si les infos de l'utisateur 
+ * correspondent à celles stockées en base de donnée et 
+ * renverra un token en réponse
+ */
+
 export const login = async (req, res) => {
 
-  const { email, password } = req.body;
-  const user = new UserLogin(email, password);
+  const { email: reqEmail, password: reqPassword } = req.body;
+  const user = new UserLogin(reqEmail, reqPassword);
 
   try {
     user.encryptEmail();

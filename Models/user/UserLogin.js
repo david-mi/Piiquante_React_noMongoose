@@ -20,10 +20,6 @@ config();
 
 class UserLogin extends User {
 
-  constructor(...props) {
-    super(...props);
-  }
-
   /**
    * Regarde si l'email de la requête existe dans la base de donnée. Si il n'existe pas
    * une erreur est renvoyée, sinon on passe l'utilisateur trouvé à setUser 
@@ -31,7 +27,7 @@ class UserLogin extends User {
 
   async isUserExisting() {
     const usersList = Connection.getCollection('users');
-    const foundUser = await usersList.findOne({ email: this.email });
+    const foundUser = await usersList.findOne({ email: this.encryptedEmail });
 
     if (!foundUser) {
       throw ({ message: "Cet utilisateur n'existe pas !", status: 404 });
