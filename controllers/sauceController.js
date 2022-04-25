@@ -9,6 +9,9 @@ export const getOneSauce = (req, res) => {
 };
 
 export const addOneSauce = (req, res) => {
+  const sauce = new Sauce();
+  console.log(sauce);
+  console.log(req.body);
   // console.log(req.body.sauce);
   // console.log(req.body);
   // const sauce = new Sauce(req.body);
