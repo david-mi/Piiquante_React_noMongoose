@@ -10,6 +10,9 @@ Connection.connect();
 
 // ROUTING
 import userRoutes from './routes/userRoutes.js';
+import sauceRoutes from './routes/sauceRoutes.js';
+
 app.use('/api/auth', userRoutes);
+app.use('/api/sauces', sauceRoutes);
 
 export default app;
