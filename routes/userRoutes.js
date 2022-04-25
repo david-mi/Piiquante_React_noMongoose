@@ -1,6 +1,6 @@
 import { signup, login } from '../controllers/userController.js';
-import express from 'express';
-const router = express.Router();
+import { Router } from 'express';
+const router = Router();
 
 router.post('/signup', signup);
 router.post('/login', login);
