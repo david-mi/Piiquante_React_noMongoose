@@ -28,25 +28,21 @@ const sauceSchema = yup.object().shape({
   heat: yup
     .number()
     .required()
-    .min(1)
-    .max(9),
+    .min(1, 'Le heat ne peut pas être en dessous de 1')
+    .max(9, 'Le heat ne peut pas dépasser 9'),
 
   likes: yup
     .number()
     .default(0),
 
-
   dislikes: yup
-    .number()
-    .default(0),
+    .number(),
 
   usersLiked: yup
-    .array()
-    .default([]),
+    .array(),
 
   usersDisliked: yup
     .array()
-    .default([])
 });
 
 export default sauceSchema;
