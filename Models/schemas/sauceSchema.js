@@ -28,8 +28,8 @@ const sauceSchema = yup.object().shape({
   heat: yup
     .number()
     .required()
-    .min(1, 'Le heat ne peut pas être en dessous de 1')
-    .max(9, 'Le heat ne peut pas dépasser 9'),
+    .min(1, 'heat ne peut pas être en dessous de 1')
+    .max(9, 'heat ne peut pas dépasser 9'),
 
   likes: yup
     .number()
