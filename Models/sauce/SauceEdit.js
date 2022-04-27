@@ -21,17 +21,17 @@ class SauceEdit extends Sauce {
     return updatedSauce;
   }
 
-  setEdited(parsed) {
-    this.name = parsed.name;
-    this.manufacturer = parsed.manufacturer;
-    this.description = parsed.description;
-    this.mainPepper = parsed.mainPepper;
-    this.heat = parsed.heat;
-    this.imageUrl = this.imageUrl || parsed.imageUrl;
-    this.likes = parsed.likes;
-    this.dislikes = parsed.dislikes;
-    this.usersLiked = parsed.usersLiked;
-    this.usersDisliked = parsed.usersDisliked;
+  setEdited(data) {
+    this.name = data.name;
+    this.manufacturer = data.manufacturer;
+    this.description = data.description;
+    this.mainPepper = data.mainPepper;
+    this.heat = data.heat;
+    this.imageUrl ??= data.imageUrl;
+    this.likes = data.likes;
+    this.dislikes = data.dislikes;
+    this.usersLiked = data.usersLiked;
+    this.usersDisliked = data.usersDisliked;
   }
 }
 

@@ -1,8 +1,6 @@
 import sauceSchema from '../schemas/sauceSchema.js';
 import fs from 'fs/promises';
 import Connection from '../../database.js';
-import { ObjectId } from 'mongodb';
-
 
 class Sauce {
 
@@ -39,7 +37,7 @@ class Sauce {
     return parsedSauce;
   }
 
-  async set(data) {
+  set(data) {
     this.name = data.name;
     this.manufacturer = data.manufacturer;
     this.description = data.description;
@@ -51,9 +49,9 @@ class Sauce {
     this.usersDisliked = [];
   }
 
-  async deleteCurrentFile() {
+  async handleFileDelete(fileUrl) {
     const regex = /images\/.+/;
-    const path = this.imageUrl.match(regex)[0];
+    const path = fileUrl.match(regex)[0];
     await fs.unlink(path);
   }
 }

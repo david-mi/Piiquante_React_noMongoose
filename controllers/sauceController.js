@@ -44,13 +44,13 @@ export const addOneSauce = async (req, res) => {
   try {
     sauce.getImageUrl(req);
     const validSauce = await sauce.validate(req.body.sauce);
-    await sauce.set(validSauce);
+    sauce.set(validSauce);
     await sauce.dbAdd();
 
     res.status(201).json({ message: 'sauce created' });
   }
   catch (err) {
-    await sauce.deleteCurrentFile();
+    await sauce.handleFileDelete(sauce.imageUrl);
     let errorStatus = '';
     if (err instanceof ValidationError) errorStatus = 400;
     const { message } = err;
@@ -69,25 +69,23 @@ export const editOneSauce = async (req, res) => {
   const dbSauceId = new ObjectId(req.params.id);
 
   try {
-
     const foundDbSauce = await sauce.dbFind(dbSauceId);
+    let parsedSauce;
 
     if (req.file) {
       sauce.getImageUrl(req);
-      const parsedSauce = JSON.parse(req.body.sauce);
-      const updatedSauce = await sauce.validateEdit(foundDbSauce, parsedSauce);
-      sauce.setEdited(updatedSauce);
-    }
-    else {
-      const updatedSauce = await sauce.validateEdit(foundDbSauce, req.body);
-      sauce.setEdited(updatedSauce);
+      parsedSauce = JSON.parse(req.body.sauce);
     }
 
-    sauce.dbReplace(dbSauceId);
+    const updatedSauce = await sauce.validateEdit(foundDbSauce, parsedSauce ?? req.body);
+    sauce.setEdited(updatedSauce);
+    await sauce.dbReplace(dbSauceId);
+    req.file && await sauce.handleFileDelete(foundDbSauce.imageUrl);
 
     res.status(201).json({ message: 'sauce edited' });
   }
   catch (err) {
+    await sauce.handleFileDelete(sauce.imageUrl);
     let errorStatus = '';
     if (err instanceof ValidationError) errorStatus = 400;
     const { message } = err;
