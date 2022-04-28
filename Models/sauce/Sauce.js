@@ -23,9 +23,10 @@ class Sauce {
 
   async dbFind(dbSauceId) {
     const foundDbSauce = await this.dbSauces.findOne(dbSauceId);
+    console.log({ foundDbSauce });
 
     if (!foundDbSauce) {
-      throw ({ message: "Cette sauce n'existe pas" });
+      throw ({ message: "Cette sauce n'existe pas", status: 404 });
     }
 
     return foundDbSauce;

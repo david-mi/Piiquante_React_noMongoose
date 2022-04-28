@@ -94,7 +94,16 @@ export const editOneSauce = async (req, res) => {
 };
 
 export const deleteOneSauce = async (req, res) => {
-  res.status(201).json({ message: 'sauce deleted' });
+
+  const dbSauceId = new ObjectId(req.params.id);
+  const sauce = new SauceEdit(req.tokenUserid);
+
+  await sauce.delete(dbSauceId)
+    .then(() => res.status(201).json({ message: 'sauce deleted' }))
+    .catch(err => {
+      const { message, status } = err;
+      return res.status(status || 500).json({ error: (message || err) });
+    });
 };
 
 export const likeOneSauce = async (req, res) => {
