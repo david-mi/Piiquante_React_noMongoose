@@ -8,10 +8,11 @@ import userSchema from '../schemas/userShema.js';
 config();
 
 /**
- * @class User qui va regrouper les méthodes communes 
+ * Va regrouper les méthodes communes 
  * pour la création et l'authentification d'un utilisateur
- * @method validData
- * @method encryptEmail
+ * 
+ * @method validData Vérifie le format des données via un schéma yup
+ * @method encryptEmail Chiffre l'email avec cryptoJs
  */
 
 class User {
@@ -26,8 +27,10 @@ class User {
     this.password = reqPassword;
   }
 
-  /** Applique le schéma yup sur l'email et le mot de passe
-   *  pour vérifier si ils sont conforme */
+  /** 
+   * @async Applique le schéma yup sur l'email et le mot de passe
+   *  pour vérifier si ils sont conforme 
+   */
 
   async validData() {
     await userSchema.validate(
@@ -38,10 +41,13 @@ class User {
     );
   }
 
-  /** encrypte l'email via cryptoJs et le place dans le constructeur */
+  /** 
+   * encrypte l'email via cryptoJs et le place dans le constructeur
+   * 
+   * @constructs encryptedEmail l'email chiffré avec crypto js
+   */
 
   encryptEmail() {
-
     const { EMAIL_SECRET } = process.env;
     const encryptedEmail = cryptoJs.SHA256(this.email, EMAIL_SECRET).toString();
 

@@ -4,7 +4,7 @@ import UserLogin from '../Models/user/UserLogin.js';
 import Connection from '../database.js';
 
 /**
- * @function signup enregistrer un utilisateur dans la base de donneé
+ * @async enregistre un utilisateur dans la base de donnée
  */
 
 export const signup = async (req, res) => {
@@ -31,9 +31,9 @@ export const signup = async (req, res) => {
 };
 
 /**
- * @function login va vérifier si les infos de l'utisateur 
- * correspondent à celles stockées en base de donnée et 
- * renverra un token en réponse
+ * @async va vérifier si les infos de l'utisateur 
+ * correspondent à celles stockées dans le document cherché et 
+ * renverra un token d'authentification en réponse
  */
 
 export const login = async (req, res) => {
