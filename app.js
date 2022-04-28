@@ -1,15 +1,16 @@
 import express from 'express';
-import './database.js';
 import Connection from './database.js';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import jwtAuth from './middlewares/jwtAuth.js';
+import cors from 'cors';
+
+Connection.connect();
 
 const app = express();
 app.listen(3000, () => console.log("Server launched..."));
 app.use(express.json());
-
-Connection.connect();
+app.use(cors());
 
 // ROUTING
 import userRoutes from './routes/userRoutes.js';
@@ -20,6 +21,6 @@ const dir = dirname(__filename);
 
 app.use('/api/auth', userRoutes);
 app.use('/api/sauces', jwtAuth, sauceRoutes);
-app.use('/images', express.static(join(dirname(dir), 'images')));
+app.use('/images', express.static(join(dir, 'images')));
 
 export default app;

@@ -7,7 +7,7 @@ router.get('/', sauce.getAllSauces);
 router.post('/', multer, sauce.addOneSauce);
 
 router.get('/:id', sauce.getOneSauce);
-router.put('/:id', sauce.editOneSauce);
+router.put('/:id', multer, sauce.editOneSauce);
 router.delete('/:id', sauce.deleteOneSauce);
 
 router.post('/:id/like', sauce.likeOneSauce);
