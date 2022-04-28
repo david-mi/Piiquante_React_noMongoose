@@ -6,13 +6,18 @@ import User from './User.js';
 import Connection from '../../database.js';
 
 /**
- * @class UserSignup qui hérite de User,
  * contenant des méthodes servant le controller signup
- * @method hashPassword
- * @method isUserRegistered
+ * @extends User
+ * @method hashPassword hash du mot de passe
+ * @method isUserRegistered vérification si un utilisateur est déjà enregistré
  */
 
 class UserSignup extends User {
+
+  /**
+   * @async va hash le mot de pass via bcrypt
+   * @constructs this.hashedPassword
+   */
 
   async hashPassword() {
     const salt = 10;
@@ -20,7 +25,10 @@ class UserSignup extends User {
     this.hashedPassword = hashedPassword;
   }
 
-  /** Regarde si l'email de la requête n'est pas déjà inscrit dans la base de donnée */
+  /**
+   * Regarde si l'email de la requête n'est pas déjà inscrit dans la base de donnée
+   * @throws une erreur si l'email est déjà enregistré dans la base de donnée
+   */
 
   async isUserRegistered() {
 
@@ -30,7 +38,6 @@ class UserSignup extends User {
       throw (({ message: "Cet utilisateur est déjà inscrit !", status: 409 }));
     }
   }
-
 }
 
 export default UserSignup;

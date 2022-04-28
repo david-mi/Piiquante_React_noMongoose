@@ -1,10 +1,15 @@
+// PACKAGES
 import { ValidationError } from 'yup';
+import { ObjectId } from 'mongodb';
+
+// CLASSES
 import Sauce from '../Models/sauce/Sauce.js';
 import SauceEdit from '../Models/sauce/SauceEdit.js';
 import Connection from '../database.js';
-import { ObjectId } from 'mongodb';
+
 
 /**
+ * @async getAllSauces
  * Récupère toutes les sauces stockées dans la base de donnée
  */
 
@@ -15,8 +20,9 @@ export const getAllSauces = async (req, res) => {
   res.status(200).json(sauces);
 };
 
+
 /**
- * Récupère la sauce dans la base de donnée correspondant aux 
+ * @async Récupère la sauce dans la base de donnée correspondant aux 
  * à l'id passé en paramètres de requête
  */
 
@@ -32,8 +38,9 @@ export const getOneSauce = async (req, res) => {
 };
 
 
+
 /**
- * Ajoute une sauce dans la collection sauces de la base de donnée 
+ * @async Ajoute une sauce dans la base de donnée 
  * MongoDB
  */
 
@@ -58,9 +65,9 @@ export const addOneSauce = async (req, res) => {
   }
 };
 
+
 /**
- * éditer une sauce en modifiant l'image ou non
- * @class dd
+ * @async remplace les informations d'une sauce en modifiant l'image ou non
  */
 
 export const editOneSauce = async (req, res) => {
@@ -92,6 +99,12 @@ export const editOneSauce = async (req, res) => {
     res.status(errorStatus || 500).json({ error: (message || err) });
   }
 };
+
+
+/**
+ * @async supprime un document sauce de la base de donnée
+ * supprime également l'image associée à cette sauce du dossier /images
+ */
 
 export const deleteOneSauce = async (req, res) => {
 
