@@ -88,6 +88,7 @@ class Sauce {
    */
 
   async handleFileDelete(fileUrl) {
+    console.log(fileUrl);
     if (fileUrl) {
       const regex = /images\/.+/;
       const path = fileUrl.match(regex)[0];

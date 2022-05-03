@@ -6,7 +6,7 @@ import UserLogin from '../Models/user/UserLogin.js';
  * @async enregistre un utilisateur dans la base de donnée
  */
 
-export const signup = async (req, res) => {
+export const signup = async (req, res, next) => {
 
   const { email, password } = req.body;
   const user = new UserSignup(email, password);
@@ -21,8 +21,7 @@ export const signup = async (req, res) => {
     res.status(200).json({ message: 'Utilisateur Créé', user });
   }
   catch (err) {
-    const { status, message } = err;
-    res.status(status || 500).json({ error: message || err });
+    next(err);
   }
 };
 
@@ -32,7 +31,7 @@ export const signup = async (req, res) => {
  * renverra un token d'authentification en réponse
  */
 
-export const login = async (req, res) => {
+export const login = async (req, res, next) => {
 
   const { email, password } = req.body;
   const user = new UserLogin(email, password);
@@ -47,8 +46,7 @@ export const login = async (req, res) => {
     res.status(200).json({ userId, token });
   }
   catch (err) {
-    const { status, message } = err;
-    res.status(status || 500).json(message || err);
+    next(err);
   }
 };
 
