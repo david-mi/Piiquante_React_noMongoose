@@ -28,7 +28,7 @@ class UserLogin extends User {
 
   async isUserExisting() {
     const usersList = Connection.getCollection('users');
-    const foundUser = await usersList.findOne({ email: this.encryptedEmail });
+    const foundUser = await usersList.findOne({ email: this.email });
 
     if (!foundUser) {
       throw ({ message: "Cet utilisateur n'existe pas !", status: 404 });
@@ -63,7 +63,7 @@ class UserLogin extends User {
     const { _id, email, password } = userInfos;
 
     this.hashedPassword = password;
-    this._id = _id;
+    this.userId = _id;
     this.encryptedEmail = email;
   }
 
@@ -77,8 +77,8 @@ class UserLogin extends User {
 
   setToken() {
     const { TOKEN_SECRET } = process.env;
-    const userId = this._id;
-    const token = jwt.sign({ userId }, TOKEN_SECRET, { expiresIn: '24h' });
+    // const userId = this._id;
+    const token = jwt.sign({ userId: this.userId }, TOKEN_SECRET, { expiresIn: '24h' });
     this.token = token;
   }
 }
