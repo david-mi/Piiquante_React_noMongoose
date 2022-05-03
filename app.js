@@ -15,6 +15,7 @@ app.use(cors());
 // ROUTING
 import userRoutes from './routes/userRoutes.js';
 import sauceRoutes from './routes/sauceRoutes.js';
+import errorHandler from './middlewares/errorHandler.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const dir = dirname(__filename);
@@ -22,5 +23,6 @@ const dir = dirname(__filename);
 app.use('/api/auth', userRoutes);
 app.use('/api/sauces', jwtAuth, sauceRoutes);
 app.use('/images', express.static(join(dir, 'images')));
+app.use(errorHandler);
 
 export default app;
