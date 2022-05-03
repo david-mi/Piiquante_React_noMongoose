@@ -1,6 +1,7 @@
 // PACKAGES
 import cryptoJs from 'crypto-js';
 import { config } from 'dotenv';
+import Connection from '../../database.js';
 
 // SCHEMAS
 import userSchema from '../schemas/userShema.js';
@@ -41,6 +42,12 @@ class User {
     );
   }
 
+  /** @returns La collection users */
+
+  get dbUsers() {
+    return Connection.getCollection('users');
+  }
+
   /** 
    * encrypte l'email via cryptoJs et le place dans le constructeur
    * 
@@ -51,7 +58,7 @@ class User {
     const { EMAIL_SECRET } = process.env;
     const encryptedEmail = cryptoJs.SHA256(this.email, EMAIL_SECRET).toString();
 
-    this.encryptedEmail = encryptedEmail;
+    this.email = encryptedEmail;
   }
 }
 

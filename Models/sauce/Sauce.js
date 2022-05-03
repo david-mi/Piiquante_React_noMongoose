@@ -51,24 +51,6 @@ class Sauce {
   }
 
   /**
-   * @async Cherche une sauce dans la base de données via l'id passé en paramètres
-   * @param {string} dbSauceId id de la sauce stockée dans la base de données
-   * @returns {string} La sauce trouvée dans la base de donnée
-   * @throws une exception si la sauce n'est pas trouvée dans la base de donnée
-   */
-
-  async dbFind(dbSauceId) {
-    const foundDbSauce = await this.dbSauces.findOne(dbSauceId);
-    console.log({ foundDbSauce });
-
-    if (!foundDbSauce) {
-      throw ({ message: "Cette sauce n'existe pas", status: 404 });
-    }
-
-    return foundDbSauce;
-  }
-
-  /**
    * @async parse les données
    * 
    * @param {object} unParsedSauce 
@@ -106,9 +88,11 @@ class Sauce {
    */
 
   async handleFileDelete(fileUrl) {
-    const regex = /images\/.+/;
-    const path = fileUrl.match(regex)[0];
-    await fs.unlink(path);
+    if (fileUrl) {
+      const regex = /images\/.+/;
+      const path = fileUrl.match(regex)[0];
+      await fs.unlink(path);
+    }
   }
 }
 

@@ -5,6 +5,7 @@ import { ObjectId } from 'mongodb';
 // CLASSES
 import Sauce from '../Models/sauce/Sauce.js';
 import SauceEdit from '../Models/sauce/SauceEdit.js';
+import SauceDb from '../Models/sauce/SauceDb.js';
 import Connection from '../database.js';
 
 
@@ -14,9 +15,7 @@ import Connection from '../database.js';
  */
 
 export const getAllSauces = async (req, res) => {
-  const dataBaseSauces = Connection.getCollection('sauces');
-  const sauces = await dataBaseSauces.find().toArray();
-
+  const sauces = await SauceDb.getAll();
   res.status(200).json(sauces);
 };
 
@@ -26,15 +25,17 @@ export const getAllSauces = async (req, res) => {
  * à l'id passé en paramètres de requête
  */
 
-export const getOneSauce = async (req, res) => {
+export const getOneSauce = (req, res) => {
 
   const idSauceParams = req.params.id;
   const idSauceDatabase = new ObjectId(idSauceParams);
 
-  const dataBaseSauces = Connection.getCollection('sauces');
-  const sauce = await dataBaseSauces.findOne(idSauceDatabase);
-
-  res.status(200).json(sauce);
+  SauceDb.getOne(idSauceDatabase)
+    .then(foundSauce => res.status(200).json(foundSauce))
+    .catch(err => {
+      const { message, status } = err;
+      return res.status(status || 500).json({ error: (message || err) });
+    });
 };
 
 
@@ -76,7 +77,8 @@ export const editOneSauce = async (req, res) => {
   const dbSauceId = new ObjectId(req.params.id);
 
   try {
-    const foundDbSauce = await sauce.dbFind(dbSauceId);
+    const foundDbSauce = await SauceDb.getOne(dbSauceId);
+
     let parsedSauce;
 
     if (req.file) {

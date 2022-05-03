@@ -3,7 +3,6 @@ import bcrypt from 'bcrypt';
 
 // CLASSES
 import User from './User.js';
-import Connection from '../../database.js';
 
 /**
  * contenant des méthodes servant le controller signup
@@ -22,7 +21,7 @@ class UserSignup extends User {
   async hashPassword() {
     const salt = 10;
     const hashedPassword = await bcrypt.hash(this.password, salt);
-    this.hashedPassword = hashedPassword;
+    this.password = hashedPassword;
   }
 
   /**
@@ -30,13 +29,15 @@ class UserSignup extends User {
    * @throws une erreur si l'email est déjà enregistré dans la base de donnée
    */
 
-  async isUserRegistered() {
-
-    const usersList = Connection.getCollection('users');
-    const userRegistered = await usersList.findOne({ email: this.encryptedEmail });
+  async isRegistered() {
+    const userRegistered = await this.dbUsers.findOne({ email: this.email });
     if (userRegistered) {
       throw (({ message: "Cet utilisateur est déjà inscrit !", status: 409 }));
     }
+  }
+
+  async dbAdd() {
+    await this.dbUsers.insertOne(this);
   }
 }
 
