@@ -1,11 +1,14 @@
-// PACKAGES
+//PACKAGES
 import cryptoJs from 'crypto-js';
 import { config } from 'dotenv';
+
+//CLASSES
 import Connection from '../../database.js';
 
-// SCHEMAS
+//SCHEMAS
 import { userSchema } from '../modelsIndexes.js';
 
+//ENV
 config();
 
 /**
