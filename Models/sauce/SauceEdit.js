@@ -1,14 +1,7 @@
-import Sauce from './Sauce.js';
-import sauceSchema from '../schemas/sauceSchema.js';
-import SauceDb from './SauceDb.js';
+import { Sauce, sauceSchema } from '../modelsIndexes.js';
 
 /**
- * Va regrouper les méthodes pour l'édition et la suppression de sauces.
- * 
- * @method dbReplace remplace une sauce dans la base de donnée par une nouvelle
- * @method validateEdit Vérifie le format des données via un schéma yup
- * @method delete supprime une sauce de la base de donnée 
- * @method setEdited ajoute les informations de la sauce à l'instance
+ * Regroupe les méthodes communes pour l'édition des sauces
  */
 
 class SauceEdit extends Sauce {
@@ -53,18 +46,6 @@ class SauceEdit extends Sauce {
     this.dislikes = data.dislikes;
     this.usersLiked = data.usersLiked;
     this.usersDisliked = data.usersDisliked;
-  }
-
-  /**
-   * @async supprime une sauce de la base de donnée
-   * @method getOne regarde si la sauce visée existe 
-   * @param {ObjectId} dbSauceId 
-   */
-
-  async delete(dbSauceId) {
-    const foundDbSauce = await SauceDb.getOne(dbSauceId);
-    await this.dbSauces.deleteOne({ _id: dbSauceId });
-    await this.handleFileDelete(foundDbSauce.imageUrl);
   }
 }
 

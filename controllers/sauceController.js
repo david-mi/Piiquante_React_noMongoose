@@ -2,9 +2,7 @@
 import { ObjectId } from 'mongodb';
 
 // CLASSES
-import Sauce from '../Models/sauce/Sauce.js';
-import SauceEdit from '../Models/sauce/SauceEdit.js';
-import SauceDb from '../Models/sauce/SauceDb.js';
+import { Sauce, SauceDb, SauceEdit, SauceDelete, SauceVote } from '../Models/modelsIndexes.js';
 
 /**
  * @async getAllSauces
@@ -78,7 +76,7 @@ export const editOneSauce = async (req, res) => {
     await sauce.dbReplace(dbSauceId);
     req.file && await sauce.handleFileDelete(foundDbSauce.imageUrl);
 
-    res.status(201).json({ message: 'sauce edited' });
+    res.status(201).json({ message: 'Sauce edited' });
   }
   catch (err) {
     next(err);
@@ -93,14 +91,28 @@ export const editOneSauce = async (req, res) => {
 export const deleteOneSauce = async (req, res) => {
 
   const dbSauceId = new ObjectId(req.params.id);
-  const sauce = new SauceEdit(req.tokenUserid);
+  const sauce = new SauceDelete(req.tokenUserid);
 
   await sauce.delete(dbSauceId)
     .then(() => res.status(201).json({ message: 'sauce deleted' }))
     .catch(err => next(err));
 };
 
-export const likeOneSauce = async (req, res) => {
-  res.status(201).json({ message: 'sauce liked' });
+export const likeOneSauce = async (req, res, next) => {
+
+  const idSauceParams = req.params.id;
+  const idSauceDatabase = new ObjectId(idSauceParams);
+  const { like: voteValue } = req.body;
+
+  try {
+    const sauce = new SauceVote(req.tokenUserid);
+    const foundDbSauce = await SauceDb.getOne(idSauceDatabase);
+    await sauce.handleVote(foundDbSauce, voteValue);
+
+    res.status(201).json({ message: 'Vote pris en compte' });
+  }
+  catch (err) {
+    next(err);
+  }
 };
 

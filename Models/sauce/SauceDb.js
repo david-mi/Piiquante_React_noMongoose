@@ -1,5 +1,9 @@
 import Connection from '../../database.js';
 
+/**
+ * Regroupe les méthodes statiques pour les interactions avec la collection sauces
+ */
+
 class SauceDb {
 
   static get collection() {
