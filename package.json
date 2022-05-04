@@ -1,7 +1,7 @@
 {
-  "name": "p6-backend-no-mongoose",
+  "name": "piiquante_nomongoose",
   "version": "1.0.0",
-  "description": "",
+  "description": "fabrication de l'api du p6 d'openclassrooms Piiquante sans utiliser Mongoose et en travaillant avec des classes",
   "main": "app.js",
   "type": "module",
   "scripts": {
