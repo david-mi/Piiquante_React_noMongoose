@@ -12,6 +12,10 @@ const client = new MongoClient(uri);
 
 class Connection {
 
+  constructor(collection) {
+    this.collection = collection;
+  }
+
   static async connect() {
     if (this.database) return this.database;
     try {
@@ -19,7 +23,15 @@ class Connection {
       console.log("Connected to database");
       const database = client.db("practice");
       this.database = database;
-      return this.database;
+      if (this.collection === 'users') {
+        return database.collection("users");
+      }
+      if (this.collection === 'sauces') {
+        return database.collection("sauces");
+      }
+
+      // this.saucesCollection = this.database.collection("sauces");
+      // return this.database;
     }
     catch (err) {
       console.log("Connection Failed");

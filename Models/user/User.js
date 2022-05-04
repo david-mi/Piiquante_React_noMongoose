@@ -1,17 +1,15 @@
 // PACKAGES
 import cryptoJs from 'crypto-js';
 import { config } from 'dotenv';
+import Connection from '../../database.js';
 
 // SCHEMAS
-import userSchema from '../schemas/userShema.js';
+import { userSchema } from '../modelsIndexes.js';
 
 config();
 
 /**
- * @class User qui va regrouper les méthodes communes 
- * pour la création et l'authentification d'un utilisateur
- * @method validData
- * @method encryptEmail
+ * Regroupe les méthodes communes pour la gestion des utilisateurs
  */
 
 class User {
@@ -26,8 +24,10 @@ class User {
     this.password = reqPassword;
   }
 
-  /** Applique le schéma yup sur l'email et le mot de passe
-   *  pour vérifier si ils sont conforme */
+  /** 
+   * @async Applique le schéma yup sur l'email et le mot de passe
+   *  pour vérifier si ils sont conforme 
+   */
 
   async validData() {
     await userSchema.validate(
@@ -38,14 +38,23 @@ class User {
     );
   }
 
-  /** encrypte l'email via cryptoJs et le place dans le constructeur */
+  /** @getter Retourne La collection users */
+
+  get dbUsers() {
+    return Connection.getCollection('users');
+  }
+
+  /** 
+   * Encrypte l'email via cryptoJs et le place dans le constructeur
+   * 
+   * @constructs encryptedEmail l'email chiffré avec crypto js
+   */
 
   encryptEmail() {
-
     const { EMAIL_SECRET } = process.env;
     const encryptedEmail = cryptoJs.SHA256(this.email, EMAIL_SECRET).toString();
 
-    this.encryptedEmail = encryptedEmail;
+    this.email = encryptedEmail;
   }
 }
 
