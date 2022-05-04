@@ -2,14 +2,14 @@
 import { ObjectId } from 'mongodb';
 
 // CLASSES
-import { Sauce, SauceDb, SauceEdit, SauceDelete, SauceVote } from '../Models/modelsIndexes.js';
+import { Sauce, SauceDb, SauceEdit, SauceDelete, SauceVote } from '../models/modelsIndexes.js';
 
 /**
  * @async getAllSauces
  * Récupère toutes les sauces stockées dans la base de donnée
  */
 
-export const getAllSauces = (req, res) => {
+export const getAllSauces = (req, res, next) => {
   SauceDb.getAll()
     .then(sauces => res.status(200).json(sauces))
     .catch(err => next(err));
@@ -57,7 +57,7 @@ export const addOneSauce = async (req, res, next) => {
  * @async remplace les informations d'une sauce en modifiant l'image ou non
  */
 
-export const editOneSauce = async (req, res) => {
+export const editOneSauce = async (req, res, next) => {
 
   const sauce = new SauceEdit(req.tokenUserid);
   const dbSauceId = new ObjectId(req.params.id);
@@ -79,6 +79,7 @@ export const editOneSauce = async (req, res) => {
     res.status(201).json({ message: 'Sauce edited' });
   }
   catch (err) {
+    req.sauce = sauce;
     next(err);
   }
 };
@@ -88,7 +89,7 @@ export const editOneSauce = async (req, res) => {
  * supprime également l'image associée à cette sauce du dossier /images
  */
 
-export const deleteOneSauce = async (req, res) => {
+export const deleteOneSauce = async (req, res, next) => {
 
   const dbSauceId = new ObjectId(req.params.id);
   const sauce = new SauceDelete(req.tokenUserid);

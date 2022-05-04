@@ -1,6 +1,5 @@
 // CLASSES
-import UserSignup from '../Models/user/UserSignup.js';
-import UserLogin from '../Models/user/UserLogin.js';
+import { UserLogin, UserSignup } from '../models/modelsIndexes.js';
 
 /**
  * @async enregistre un utilisateur dans la base de donnée

@@ -21,7 +21,7 @@ class Connection {
     try {
       await client.connect();
       console.log("Connected to database");
-      const database = client.db("practice");
+      const database = client.db(NAME);
       this.database = database;
       if (this.collection === 'users') {
         return database.collection("users");
