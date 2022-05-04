@@ -7,6 +7,7 @@ export default async (err, req, res, next) => {
 
   if (req.file) {
     const sauce = req.sauce;
+    console.log(sauce);
     await sauce.handleFileDelete(sauce.imageUrl);
 
     if (err instanceof ValidationError) {
