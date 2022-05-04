@@ -4,16 +4,12 @@ import { config } from 'dotenv';
 import Connection from '../../database.js';
 
 // SCHEMAS
-import userSchema from '../schemas/userShema.js';
+import { userSchema } from '../modelsIndexes.js';
 
 config();
 
 /**
- * Va regrouper les méthodes communes 
- * pour la création et l'authentification d'un utilisateur
- * 
- * @method validData Vérifie le format des données via un schéma yup
- * @method encryptEmail Chiffre l'email avec cryptoJs
+ * Regroupe les méthodes communes pour la gestion des utilisateurs
  */
 
 class User {
@@ -42,14 +38,14 @@ class User {
     );
   }
 
-  /** @returns La collection users */
+  /** @getter Retourne La collection users */
 
   get dbUsers() {
     return Connection.getCollection('users');
   }
 
   /** 
-   * encrypte l'email via cryptoJs et le place dans le constructeur
+   * Encrypte l'email via cryptoJs et le place dans le constructeur
    * 
    * @constructs encryptedEmail l'email chiffré avec crypto js
    */

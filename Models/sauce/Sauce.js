@@ -1,18 +1,9 @@
-import sauceSchema from '../schemas/sauceSchema.js';
 import fs from 'fs/promises';
 import Connection from '../../database.js';
+import { sauceSchema } from '../modelsIndexes.js';
 
 /**
- * Va regrouper les méthodes communes pour la gestion des sauces
- * 
- * @constructor L'userId contenu dans le payload du token de l'utilisateur
- * @getter dbSauces retourne la collection sauces
- * @method getImageUrl Retourne l'url de l'image stockée dans le dossier images
- * @method dbAdd Ajoute une sauce dans la base de donnée
- * @method dbFind Cherche si une sauce est présente dans la base de donnée
- * @method validate Vérifie le format des données via un schéma yup
- * @method set Ajoute les informations de l'utilisateur au constructeur
- * @method handleFileDelete Supprime une image du dossier images
+ * Regroupe les méthodes communes pour la gestion des sauces
  */
 
 class Sauce {
@@ -26,7 +17,9 @@ class Sauce {
     this.userId = userIdToken;
   }
 
-  /** @returns La collection sauces */
+  /**
+   * @getter retourne La collection sauces
+   */
 
   get dbSauces() {
     return Connection.getCollection('sauces');
@@ -44,19 +37,20 @@ class Sauce {
     this.imageUrl = imageUrl;
   }
 
-  /** @async Ajoute une sauce dans la base de données */
+  /**
+   *  @async Ajoute une sauce dans la base de données
+   */
 
   async dbAdd() {
     await this.dbSauces.insertOne(this);
   }
 
   /**
-   * @async parse les données
+   * @async parse les données et les valide via un schéma yup
    * 
    * @param {object} unParsedSauce 
-   * @returns 
+   * @returns l'objet contenant les informations de la sauce parsé et vérifié
    */
-
 
   async validate(unParsedSauce) {
     const parsedSauce = JSON.parse(unParsedSauce);
@@ -88,7 +82,6 @@ class Sauce {
    */
 
   async handleFileDelete(fileUrl) {
-    console.log(fileUrl);
     if (fileUrl) {
       const regex = /images\/.+/;
       const path = fileUrl.match(regex)[0];

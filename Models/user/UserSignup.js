@@ -2,13 +2,10 @@
 import bcrypt from 'bcrypt';
 
 // CLASSES
-import User from './User.js';
+import { User } from '../modelsIndexes.js';
 
 /**
- * contenant des méthodes servant le controller signup
- * @extends User
- * @method hashPassword hash du mot de passe
- * @method isUserRegistered vérification si un utilisateur est déjà enregistré
+ * Regroupe les méthodes communes pour l'inscription des utilisateurs
  */
 
 class UserSignup extends User {

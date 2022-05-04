@@ -4,18 +4,13 @@ import jwt from 'jsonwebtoken';
 import { config } from 'dotenv';
 
 // CLASSES
-import User from './User.js';
+import { User } from '../modelsIndexes.js';
 import Connection from '../../database.js';
 
 config();
 
 /**
- * Contient des méthodes servant le controller login
- * 
- * @method isUserExisting regarde l'utilisateur existe dans la base de donnée
- * @method comparePassword compare le mot de passe de la requête avec celui stocké dans la base de donnée
- * @method setuser Ajoute un utilisateur dans la base de donnée 
- * @method setToken construit un token
+ * Regroupe les méthodes communes pour l'authentification des utilisateurs
  */
 
 class UserLogin extends User {
