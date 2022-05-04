@@ -1,5 +1,9 @@
-import { signup, login } from '../controllers/userController.js';
+//PACKAGES
 import { Router } from 'express';
+
+//CONTROLLERS
+import { signup, login } from '../controllers/userController.js';
+
 const router = Router();
 
 router.post('/signup', signup);

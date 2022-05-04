@@ -1,20 +1,24 @@
+//PACKAGES
 import { MongoClient } from 'mongodb';
 import { config } from 'dotenv';
 
-// ENV
+//ENV
 config();
 const { DB_USERNAME: USER, DB_PW: PW, DB_NAME: NAME, DB_URL: URL } = process.env;
 
-// MONGODB INFOS
+//MONGODB INFOS
 const uri = `mongodb+srv://${USER}:${PW}@${URL}/${NAME}?retryWrites=true&w=majority`;
 const client = new MongoClient(uri);
 
+/**
+ * Gère la connection sur la base de donnée mongoDB et l'accès aux collections
+ */
 
 class Connection {
 
-  constructor(collection) {
-    this.collection = collection;
-  }
+  /**
+   * Gestion de la connexion à la base de donnée mongoDB
+   */
 
   static async connect() {
     if (this.database) return this.database;
@@ -23,20 +27,16 @@ class Connection {
       console.log("Connected to database");
       const database = client.db(NAME);
       this.database = database;
-      if (this.collection === 'users') {
-        return database.collection("users");
-      }
-      if (this.collection === 'sauces') {
-        return database.collection("sauces");
-      }
-
-      // this.saucesCollection = this.database.collection("sauces");
-      // return this.database;
     }
     catch (err) {
       console.log("Connection Failed");
     }
   }
+
+  /**
+   * @param {string} collection nom de la collection désirée
+   * @returns la collection correspondante
+   */
 
   static getCollection(collection) {
     try {
@@ -47,8 +47,6 @@ class Connection {
     catch (err) {
       console.log(err);
     }
-
-
   }
 }
 

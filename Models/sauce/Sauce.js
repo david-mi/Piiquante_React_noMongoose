@@ -1,5 +1,10 @@
+//PACKAGES
 import fs from 'fs/promises';
+
+//CLASSES
 import Connection from '../../database.js';
+
+//SCHEMAS
 import { sauceSchema } from '../modelsIndexes.js';
 
 /**
