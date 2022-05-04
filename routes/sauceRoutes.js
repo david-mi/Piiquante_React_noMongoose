@@ -1,7 +1,13 @@
+//PACKAGES
 import { Router } from 'express';
-const router = Router();
+
+//CONTROLLERS
 import * as sauce from '../controllers/sauceController.js';
+
+//MIDDLEWARES
 import multer from '../middlewares/multer.js';
+
+const router = Router();
 
 router.get('/', sauce.getAllSauces);
 router.post('/', multer, sauce.addOneSauce);

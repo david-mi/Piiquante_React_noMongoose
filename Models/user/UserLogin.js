@@ -1,12 +1,13 @@
-// PACKAGES
+//PACKAGES
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { config } from 'dotenv';
 
-// CLASSES
+//CLASSES
 import { User } from '../modelsIndexes.js';
 import Connection from '../../database.js';
 
+//ENV
 config();
 
 /**
